@@ -1,0 +1,7 @@
+.form { display: flex; flex-direction: column; gap: var(--space-4); }
+.labelRow { display: flex; align-items: baseline; justify-content: space-between; }
+.label { font-size: var(--text-sm); font-weight: 500; color: var(--color-text-muted); }
+.charCount { font-size: var(--text-xs); color: var(--color-text-muted); opacity: 0.6; }
+.input { width: 100%; padding: var(--space-3) var(--space-4); }
+.error { font-size: var(--text-sm); color: var(--color-error); }
+.actions { display: flex; justify-content: flex-end; gap: var(--space-3); margin-top: var(--space-2); }

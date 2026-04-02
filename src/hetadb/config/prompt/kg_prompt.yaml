@@ -1,0 +1,724 @@
+node_prompt: |-
+  你是一名知识抽取与标准化专家。  
+  我将提供一段文本及从属性映射表。  
+  你的任务是根据下方【属性映射表】为节点进行属性补全、标准化输出，并进行代词指代消解。
+  属性表（节点及属性）：
+  {entity_schema}
+  必须严格遵守以下规则：
+
+  【1】输出要求：
+  - 输出格式必须是 **JSON 数组**，不包含任何解释或说明性文字。
+  - 数组中每个对象代表一个节点。
+  - 每个节点对象结构如下：
+    {{
+      "NodeName": "节点名称",
+      "Type":"表中对应的一级节点名称 ",
+      "SubType": "表中对应的三级节点名称",
+      "Description": "对于实体的总结描述，1-2句凝练的总结Node的话",
+      "属性名1": "属性值1",
+      "属性名2": "属性值2",
+      ...
+    }}
+
+  【2】映射与过滤规则：
+  - 仅能使用【属性映射表】中明确出现的节点和属性。
+  - 若节点或属性无法精确映射，直接舍弃，不输出该节点。
+  - 严禁输出无意义节点，如“该行为”“他们”“本公司”等。
+  - SubType仅能为表中的三级节点名称，若无法映射到表中，则进行舍弃。
+
+  【3】代词与模糊表达解析：
+  - 代词（如“本公司”“该产品”“它”）必须解析为具体实体名称。
+  - 若上下文无法确定代词指向，结合title进行补充，若无法补充，则舍弃。
+  - 当属性中包含多个值（如多个主语、多个日期），需拆分为独立条目。
+
+  【4】属性限制：
+  - 所有未严格限制的值均为简体中文。
+  - 保持语义正确，对于 中文名称 这类限制中文的属性 输出必须为简体中文，对于英文名称这类限制英文的属性 输出必须为英文，若提取不到则舍弃。
+  - 严格限制在映射表列出的属性范围内。
+  - 不允许新增、推测或扩展任何表中未列属性。
+
+  【5】时间规范：
+  - 所有涉及时间的属性（如成立日期、出生日期、发布日期、任职起止日期等）需转换为公元纪年格式（YYYY-MM-DD 或 YYYY）。
+
+  【6】字段控制：
+  - 不输出 Id、chunk_id 或其他与节点标识相关的字段。
+  - 仅输出语义有效的属性信息。
+
+  【7】输入格式】
+  Text: {input_text}
+
+  【8】输出格式（示例）】
+  [
+    {{
+      "NodeName": "上海市",
+      "Type": "Entity",
+      "SubType": "行政区划",
+      "Description": "中华人民共和国直辖市，国家中心城市，国际经济、金融、贸易、航运和科技创新中心",
+      "行政区划中文名称": "上海市",
+      "行政区划所属国家": "中华人民共和国",
+      "行政区划级别": "省级（直辖市）",
+      "行政区划设立日期": "1927-07-07"
+    }},
+    {{
+      "NodeName": "大熊猫",
+      "Type": "Entity",
+      "SubType": "生物物种",
+      "Description": "中国特有哺乳动物，属于食肉目熊科，以竹子为主食，是国家一级保护动物和世界自然保护联盟濒危物种",
+      "物种中文名称": "大熊猫",
+      "物种学名": "Ailuropoda melanoleuca",
+      "物种分类": "哺乳纲-食肉目-熊科-大熊猫属",
+      "保护等级": "国家一级重点保护野生动物 / IUCN 濒危（EN）",
+      "主要分布地区": "中国四川、陕西、甘肃等地的山区"
+    }}
+  ]
+
+rel_prompt: |-
+  你是一名知识图谱结构化抽取专家。  
+  我将提供一段文本，从文本中提取的节点列表，以及【关系映射表】。  
+  你的任务是根据下方【关系映射表】进行标准化筛选与补全，  
+  并严格输出符合映射表定义的关系。
+
+  关系表:
+  {relation_schema}
+
+  -------------------
+
+  【字段约束】
+  1. `"Type"` 字段仅能使用映射表中 **“关系类型”** 列中的值。  
+  2. `"Relation"` 字段仅能使用映射表中 **“关系”** 列中的值。  
+  3. 若生成内容中 `"Type"` 或 `"Relation"` 不属于映射表定义值，**直接舍弃**。  
+  4. `"Description"` 必须为自然语言描述，体现出 `"Node1"` 与 `"Node2"` 的关系。
+  5. 生成内容必须均为简体中文。  
+
+  ---
+
+  【严格逻辑约束】
+  1. **仅限表内关系**
+     - 只能抽取映射表中存在的关系。
+     - 不在表中的任何关系一律不输出。
+
+  2. **节点类型严格匹配**
+     - 关系中的节点仅能从提供的Nodes以及Relation中复用或者改写，禁止生成额外的关系。
+     - 若起点或终点类型不匹配，直接舍弃。
+
+  3. ****方向性校验****
+     - 关系方向必须与映射表保持一致（例如子公司关系：母 → 子）。
+     - 方向反转或歧义关系不输出。
+
+  4. **时间规范**
+     - 若涉及时间，统一转为公元纪年格式（YYYY-MM-DD 或 YYYY）。
+
+  5. **禁止自由生成**
+     - 不得生成映射表外的新关系类型、语义或节点类型。
+     - 不得输出任何解释、注释或自然语言段落。
+  6. **实体语义约束**
+
+    - 所有关系中的实体必须是有意义且具体的命名实体。
+    - 禁止输出含模糊指代的实体（如“该公司”“本单位”“它们”“产品”“这些”等）。
+    - 语料中的实体尽可能要有明确的名称。  
+  7. **描述生成要求**
+    - "Description" 字段为简短简体中文描述（1–2句），需结合语料上下文与关系含义撰写。
+    - 应生成自然、流畅的简体中文总结。
+  -------------------
+
+  【输入格式】
+  Text: {input_text}
+  Nodes: {nodes}
+
+  【5】输出格式（示例）】
+  [
+    {{
+      "Node1": "上海市",
+      "Node2": "徐汇区",
+      "Type": "空间关系",
+      "Relation": "包含行政区",
+      "Description": "徐汇区是上海市下辖的市辖区，位于上海市中心城区西南部，是上海市的重要组成部分。"
+    }},
+    {{
+      "Node1": "大熊猫",
+      "Node2": "北极熊",
+      "Type": "关联关系",
+      "Relation": "均为熊科动物",
+      "Description": "大熊猫和北极熊均为熊科动物，但大熊猫主要分布于中国四川、陕西等地的温带山区，以竹子为主食；北极熊则生活在北极圈内，是顶级肉食性掠食者，两者在栖息地、食性和保护状态上差异显著。"
+    }}
+  ]
+
+entity_template:
+  客观实体:
+    企业:
+      - 成立时间
+      - 总部地址
+      - 所属产业链
+    机构:
+      - 成立时间
+      - 总部地址
+      - 机构类型
+    人物:
+      - 性别
+      - 生卒年月
+      - 出生地
+      - 常居地
+    产品:
+      - 产品型号
+      - 生命周期
+      - 生产主体
+      - 成本
+      - 售价
+      - 产量
+      - 产能
+      - 市场份额
+
+  抽象实体:
+    技术:
+      - 技术别名
+      - 技术定义
+      - 成熟度
+      - 发展状态
+      - 提出时间
+      - 首次应用时间
+    产业:
+      - 产业链环节
+      - 产业介绍
+    现象:
+      - 现象介绍
+      - 所属领域
+    指标:
+      - 指标数值
+      - 计量单位
+      - 统计周期
+      - 统计范围
+      - 数据来源
+
+  事件实体:
+    瞬时事件:
+      - 事件状态
+      - 发生时间
+      - 发生地点
+      - 发生主体
+      - 事件描述
+    持续性事件:
+      - 结束时间
+      - 事件阶段
+      - 发生时间
+      - 发生地点
+      - 发生主体
+      - 事件描述
+
+  文献实体:
+    政策公告:
+      - 发文号
+      - 生效时间
+      - 失效时间
+      - 适用领域
+      - 适用地区
+      - 发布主体
+      - 发布时间
+      - 文献摘要
+      - 语言
+      - 格式
+      - 全文
+      - 原文链接
+    研究报告:
+      - 研究目标
+      - 研究方法
+      - 发布主体
+      - 发布时间
+      - 文献摘要
+      - 语言
+      - 格式
+      - 全文
+      - 原文链接
+    新闻资讯:
+      - 新闻类型
+      - 发布主体
+      - 发布时间
+      - 文献摘要
+      - 语言
+      - 格式
+      - 全文
+      - 原文链接
+    数据报表:
+      - 报表类型
+      - 统计主体
+      - 统计周期
+      - 数据来源
+      - 核心指标
+    论文文献:
+      - 发表期刊/会议
+      - 引言
+      - 关键词
+      - 研究方法
+      - 参考文献
+    技术文档:
+      - 文档类型
+
+relation_template:
+  - 关系类型: "分类关系"
+    示例短语: ["是…的一种"]
+    关系: "分类关系"
+    关系说明: "某一实体按特定维度划分出多个实体"
+
+  - 关系类型: "部分整体关系"
+    示例短语: ["属于…的一部分"]
+    关系: "部分整体关系"
+    关系说明: "某一实体属于另一实体的一部分"
+
+  - 关系类型: "因果关系"
+    示例短语: ["导致"]
+    关系: "因果关系"
+    关系说明: "某一实体触发或导致另一实体，存在明确逻辑链路"
+
+  - 关系类型: "时间关系"
+    示例短语: ["在…之前", "在…之后", "在…期间"]
+    关系: "时间关系"
+    关系说明: "两个实体在时间轴上的先后、同步或持续关联"
+
+  - 关系类型: "空间关系"
+    示例短语: ["在…内", "包含", "靠近"]
+    关系: "空间关系"
+    关系说明: "实体在物理或虚拟空间中的位置关联"
+
+  - 关系类型: "动作关系"
+    示例短语: ["创建", "使用", "改变"]
+    关系: "动作关系"
+    关系说明: "一个实体对另一个实体执行特定动作"
+
+  - 关系类型: "属性关系"
+    示例短语: ["具有属性"]
+    关系: "属性关系"
+    关系说明: "实体与其属性值之间的关联"
+
+  - 关系类型: "关联关系"
+    示例短语: ["与…相关"]
+    关系: "关联关系"
+    关系说明: "其他非上述 7 类的间接或辅助性关系"
+chunk_merge_prompt : |-
+  # Role
+  You are a professional text deduplication and chunk merging engine.
+  You are extremely strict about semantic overlap judgment.
+
+  # Task
+  You are given:
+  1. One main chunk
+  2. A list of candidate chunks
+
+  Your task is to determine whether each candidate chunk is semantically redundant
+  with the main chunk.
+
+  A candidate chunk should be considered REDUNDANT if and only if:
+  - More than 90% of its information content is already covered by the main chunk
+  - It introduces NO new facts, events, numbers, time points, or conclusions
+  - Paraphrasing, reordering, or wording differences still count as overlap
+
+  If a candidate chunk is REDUNDANT:
+  - Merge it into the main chunk
+  - Remove duplicated expressions
+  - Preserve the most complete and clear wording
+  - Do NOT introduce repetition
+  - Do NOT invent new content
+
+  If a candidate chunk is NOT redundant:
+  - Do NOT merge it
+
+  --------------------------------------------------
+  ## Output Rules (CRITICAL)
+  --------------------------------------------------
+
+  You MUST return a strict JSON object with EXACTLY ONE result.
+
+  ### Case 1: NO merge occurred
+  - This means NONE of the candidate chunks are redundant
+  - text MUST be null
+  - merge_id MUST be null
+
+  ### Case 2: ONE OR MORE candidate chunks were merged
+  - text MUST be the merged main chunk text
+  - merge_id MUST be the ORIGINAL id(s) of the candidate chunk(s) that were merged
+  - merge_id MUST refer to the pre-merge ids, NOT the main chunk id
+  - If multiple chunks were merged, merge_id MUST be an array
+
+  --------------------------------------------------
+  ## Input
+  Main chunk:
+  {MAIN_CHUNK}
+
+  Candidate chunks:
+  {CANDIDATE_LIST}
+
+  --------------------------------------------------
+  ## Output Format (STRICT JSON)
+  {{
+    "text": null | "<merged_text>",
+    "merge_id": null | <id> | [<id>, <id>, ...]
+  }}
+
+
+chunk_merge_refine_prompt : |-
+  # Role
+  You are a professional text deduplication, chunk merging, and content refinement engine.
+  You are extremely strict about semantic overlap judgment and conservative about merging.
+  You are also a high-precision data cleaning and language normalization system.
+
+  # Task Overview
+  You are given:
+  1. One main chunk
+  2. A list of candidate chunks
+
+  Your task consists of two phases:
+  Phase 1: Semantic redundancy judgment and conditional merging  
+  Phase 2: Content refinement (clean narrative extraction)
+
+  --------------------------------------------------
+  ## Phase 1: Chunk Redundancy Judgment & Merging
+  --------------------------------------------------
+
+  Determine whether each candidate chunk is semantically redundant with the main chunk.
+
+  A candidate chunk is considered REDUNDANT if and only if:
+  - More than 90% of its information content is already covered by the main chunk
+  - It introduces NO new facts, events, dates, numbers, entities, locations, or conclusions
+  - Differences in wording, paraphrasing, or sentence order still count as overlap
+
+  If a candidate chunk is REDUNDANT:
+  - Merge it into the main chunk
+  - Remove duplicated expressions
+  - Preserve the most complete, accurate, and clear wording
+  - Do NOT introduce repetition
+  - Do NOT invent new information
+
+  If a candidate chunk is NOT redundant:
+  - Keep it unchanged as an independent chunk
+
+  --------------------------------------------------
+  ## Phase 2: Content Refinement (Refine Rules)
+  --------------------------------------------------
+
+  After Phase 1 is completed, apply content refinement as follows:
+
+  ### Refinement Target
+  - If NO candidate chunks were merged:
+    → Refine the original main chunk
+  - If ONE OR MORE candidate chunks were merged:
+    → Refine the merged main chunk
+
+  ### Refinement Objective
+  You are a highly efficient data cleaning and language transformation system.
+  Your goal is to extract pure narrative content from noisy web text.
+
+  ### You MUST extract and preserve:
+  - News / announcements / article-style narrative content
+  - Event descriptions, time points, and locations
+  - Names of people, organizations, institutions, and units
+  - Data, facts, and conclusions
+
+  ### You MUST remove all non-content noise, including but not limited to:
+  - Page structure: headers, footers, menus, navigation bars, breadcrumbs, search boxes
+  - Functional hints: keyboard shortcuts (Alt+U, Ctrl+C, etc.), operation instructions
+  - Buttons and UI text: Close, Back to top, Next page
+  - Social sharing elements: Facebook, Twitter, LINE, Share buttons
+  - Legal and policy text: Cookies, Privacy Policy, Terms of Service, Disclaimers
+  - Technical markers: loading, header, footer, start, end
+  - Advertisements, tracking scripts, and analytics text
+
+  ### Processing Logic
+  - If the text contains ANY narrative content:
+    → You MUST fully preserve and output the complete narrative content
+  - If the text contains ONLY website structure or boilerplate:
+    → Output an empty string
+  - Do NOT mistakenly delete valid narrative content
+  - If narrative content is mixed with noise:
+    → Remove noise ONLY, preserve narrative content entirely
+
+  --------------------------------------------------
+  ## Output Rules (CRITICAL)
+  --------------------------------------------------
+
+  You MUST return a strict JSON object with EXACTLY ONE result object.
+
+  ### Case 1: NO merge occurred (only refinement was performed)
+  - merge_id MUST be null
+  - text MUST be the refined main chunk text
+
+  ### Case 2: ONE OR MORE candidate chunks were merged
+  - merge_id MUST be the ORIGINAL id(s) of the candidate chunk(s) that were merged and removed
+  - merge_id MUST refer to the pre-merge id(s), NOT the main chunk id
+  - If multiple candidate chunks were merged, merge_id MUST be an array of ids
+  - text MUST be the refined merged text
+
+  --------------------------------------------------
+  ## Output Format (STRICT JSON)
+  {{
+    "text": "<refined_text_or_merged_text>",
+    "merge_id": null | <id> | [<id>, <id>, ...]
+  }}
+
+  --------------------------------------------------
+  ## Input
+  Main chunk:
+  {MAIN_CHUNK}
+
+  Candidate chunks:
+  {CANDIDATE_LIST}
+dedup_node_template : |-
+  # Role
+  你是一个知识图谱数据治理专家。你的任务是对一组“重名实体列表”进行清洗和合并。
+  你需要判断这些实体是指向同一个事物，还是同名但不同义的独立事物。
+
+
+  # Rules & Constraints (必须严格遵守)
+
+  【1】输出格式要求：
+  - 最终输出必须是一个 **JSON 数组**（List of Objects）。
+  - 数组中包含一个或多个实体对象。
+  - 格式示例：
+    [
+      {{
+        "NodeName": "实体名称",
+        "Type": "Entity / Concept / Document 中之一",
+        "SubType": "具体的类型",
+        "Description": "实体核心特征总结",
+        "Attr": {{
+          "属性名1": "属性值1"
+        }}
+      }},
+      ...
+    ]
+
+  【2】同名歧义处理 (Disambiguation) **(重要)**：
+  - 仔细分析 Entity Block 中的每个条目。
+  - **情况 A：指代同一事物** -> 按照 Rule 4 进行合并，输出数组中只有一个对象。
+  - **情况 B：指代不同事物** -> 必须拆分为不同的实体对象。
+    - 此时必须对 `NodeName` 进行重命名以区分。
+    - 命名方式：`{{node_name}} ({{具体属性或类别}})`。
+    - 例如：输入都是“苹果”，一个是水果，一个是公司。输出应拆分为两个节点：NodeName 分别为 "苹果 (水果)" 和 "苹果 (公司)"。
+
+  【3】映射与过滤：
+  - 仅使用 Schema 中存在的字段，其他舍弃。
+  - 严禁输出无意义节点（如“公司”、“他们”）。
+  - 进行代词消解（如“本公司”->“具体公司名”）。
+
+  【4】属性合并策略：
+  - Type/SubType：选择最具体分类。若实体名为国家/地区，SubType 设为“国家”。
+  - Attr：
+    - 冲突值：保留置信度高、信息量大的值。
+    - 列表值：若字段允许（如“产品”），可合并；否则保留最重要的一条。
+    - 缺失值：用空字符串 `""` 填充或不输出。
+
+  【5】数据规范：
+  - 时间格式：`YYYY-MM-DD` 或 `YYYY`。
+  - 纯文本：不要输出 Markdown 标记。
+
+  # Input Data
+  待处理的实体列表（Entity Block）：
+  {entity_block}
+
+  标准参考名称（NodeName）：
+  {node_name}
+  （注：若触发歧义拆分，请基于此名称进行重命名）
+
+  请执行合并或拆分操作：
+merge_node_cluster_prompt : |-
+  # Role
+  你是一名资深的知识图谱数据清洗专家。你拥有极强的语义理解能力，能够识别不同表述背后的同一现实概念。
+
+  # Task
+  你将接收一组（Batch）知识图谱实体数据。这些实体经过初步聚类，被认为在向量空间上是相似的。
+  你的任务是：
+  1. **语义比对**：仔细阅读每个实体的 `NodeName`、`Description` 。
+  2. **判断合并**：判断这些实体是否指代现实世界中的**同一个事物**。
+    - 如果是：将它们合并为一个规范实体。
+    - 如果不是（例如：只是名字相似但含义不同）：保留为独立实体。
+  注意：**“是否同一现实事物” ≠ “是否应该规范化命名”**。
+  只有在本 Batch 中存在多个明确指代同一事物的实体时，才进行合并与规范化。
+  3. **数据重构**：生成合并后的实体列表，并输出详细的 ID 映射关系。
+
+  # Input Data Format
+  输入为一个 JSON 列表，包含待处理的实体。格式示例如下：
+  ```json
+  [
+    {{
+      "NodeName": "Apple",
+      "Description": "一家位于美国的知名科技公司，生产iPhone。",
+      "Attr": {{"industry": "Tech"}}
+    }},
+    {{
+      "NodeName": "Apple Inc.",
+      "Description": "美国跨国科技公司...",
+      "Attr": {{}}
+    }}
+  ]
+  ```
+
+  # Constraints & Rules (重要)
+  0. **严格原样保留规则（Hard Rule）**：
+    - 对于 `merge_tag = false` 的实体：
+      - `NodeName` 必须与输入中的某一个 `NodeName` **完全一致（逐字符一致）**
+      - `Description`、`Attr` 必须与该输入实体 **完全一致**
+      - ❌ 不允许翻译、中英文转换、规范化命名、补全公司全称、同义改写
+    - 如果你认为某实体需要被“改名 / 规范化”，那必须以 **merge_tag = true（发生合并）** 为前提。
+  1. **合并阈值**：只有当你 **90% 确定**两个实体指代同一概念时才合并。如果不确定，请保留原样。
+  2. **规范实体 (Canonical Entity)**：
+    - 合并时，必须从原实体中选择一个信息最丰富、最具代表性的作为**主实体**。
+  3. **内容聚合**：
+    - `Description`: 综合所有被合并实体的描述，生成一段更全面、准确的描述。
+    - `Attr`: 合并所有属性（求并集），冲突时保留主实体的值。
+  4. **合并标记 (Merge Tag)**：
+    - 在输出的实体对象中增加 merge_tag 字段。
+    - 如果该实体是由 2个或更多 原实体合并而成的，设为 true。
+    - 如果该实体未被合并（保持原样），设为 false。  
+  5. **映射表规则 (Mapping Table)**：
+    - mapping_table 仅记录发生合并的情况。
+    - 格式为："合并后的规范名称": ["原名称1", "原名称2", ...]。
+    - 如果某实体未与任何其他实体合并（即独立实体），不要将其加入映射表。
+    - 如果没有发生任何合并，mapping_table 必须为一个空对象 {{}}。
+  6. **输出格式**：必须输出严格的 JSON 格式，不要包含 Markdown 代码块标记（如 ```json），直接输出 JSON 字符串。
+  7. **禁止隐式合并或隐式规范化**：
+    - 不得因为你“知道它们是同一公司”而修改实体。
+    - 只有在 **mapping_table 中明确记录合并关系** 的情况下，才允许生成新的规范实体名称。
+  8. **合并消除规则（Entity Elimination Rule）**：
+    - 只要某个原始实体参与了合并：
+      - 它就 **不再作为独立实体出现在 entity_list 中**
+    - entity_list 中 **只能包含**：
+      - 合并后的规范实体（merge_tag = true）
+      - 或 从未与任何实体发生合并的原始实体（merge_tag = false）
+    - ❌ 严禁以下情况：
+      - 一个实体既出现在 mapping_table 中，又以 merge_tag = false 出现在 entity_list 中
+  9. **一致性校验规则**：
+    - mapping_table 中出现的所有“原名称”，
+      - 都 **不允许** 再出现在 entity_list 中。
+
+
+  # Output Format
+  请严格按照以下 JSON 结构输出：
+  ```json
+  {{
+    "entity_list": [
+      {{
+        "NodeName": "Apple Inc.", 
+        "Description": "合并后的描述...",
+        "Attr": {{"industry": "Tech", ...}},
+        "merge_tag": true
+      }},
+      {{
+        "NodeName": "Different Entity",
+        "Description": "...",
+        "Attr": {{...}},
+        "merge_tag": false
+      }}
+    ],
+    "mapping_table": {{
+      "Apple": ["Apple", "Apple Inc."], 
+      // 注意： "Different Entity" 没有合并，所以不出现在这里。
+      // 如果本批次完全无合并，此处应为 {{}}
+    }}
+  }}
+  ```
+
+  # Data to Process
+  以下是本批次需要你处理的实体列表（JSON格式）：
+
+  {entity_list_json}
+dedup_rel_template : |-
+  # Role
+  你是一个知识图谱数据治理专家。你的任务是对同一对实体之间的多条关系记录进行清洗和合并，或在必要时拆分成多条更精确的关系。
+
+
+
+  # Instructions
+  1. 所有记录都描述同一对实体，请保持 `Node1` 和 `Node2` 不变，不要修改实体名称。
+  2. 若多条记录语义一致，请合并为尽量少的关系条目；若发现存在语义明显不同的关系，可拆分为多条。
+  3. 若多条关系在语义上完全一致，仅在时间、次数等事件属性上不同，且无法抽象为不同关系类型，应合并为一条关系，并在 `Description` 中以列表或汇总形式保留关键事件信息。
+  4. 每条输出记录应尽量保留以下字段：`Node1`、`Node2`、`Relation`、`Type`、`Description`。可保留额外字段（如 `chunk_id`、`Attr`）但不要虚构不存在的数据。
+  5. 当字段冲突时选择信息更完整、具体的内容；若无法判断，可留空或删除该字段。
+  6. 输出可以是单个 JSON 对象（合并结果）或 JSON 数组（拆分为多条），不要添加解释性文本或额外标记。但单条关系的Description必须为String
+
+  # Input
+  - 起点实体（Node1）: {node1}
+  - 终点实体（Node2）: {node2}
+  - 待处理的关系记录（JSON 数组）:
+  {relation_block}
+merge_rel_prompt : |-
+  # Role
+  你是一名资深的知识图谱关系数据治理专家。你具备精细的语义判别能力，能够区分“同一事实关系的多次表述”与“同一实体之间的不同关系或不同事件实例”。
+
+  # Task
+  你将接收一组（Batch）关系记录。这些关系在 `Description` 的语义表达上相近，
+  但 **Node1 / Node2 并不保证完全一致**，可能存在冗余抽取、表达差异或事件粒度不同等情况。
+
+  你的任务是：
+  1. **语义比对**：仔细阅读每条关系的 `Node1`、`Node2`、`Relation`、`Type`、`Description` 及相关属性。
+  2. **关系判定**：
+    - 判断哪些记录在语义上描述的是**同一事实关系**；
+    - 判断是否仅在**时间、次数、阶段等事件属性**上存在差异；
+    - 判断是否由于实体不同而**不应合并**；
+    - 识别是否存在**语义明显不同、不可合并**的关系。
+  3. **关系治理**：
+    - 仅当 **Node1 与 Node2 指代同一对实体，且关系语义一致** 时，才允许合并；
+    - 对仅在事件属性上不同的关系，可进行事件级压缩；
+    - 对语义或实体不一致的关系，必须保持为独立记录。
+
+  注意：
+  - **语义相近 ≠ 可合并**
+  - **描述相似但实体不同的关系，严禁合并**
+
+  # Constraints & Rules（重要）
+  0. **实体不变规则（Hard Rule）**：
+    - 所有输出关系的 `Node1` 与 `Node2` 必须与输入保持完全一致（逐字符一致）。
+    - ❌ 不允许修改、规范化、翻译实体名称。
+
+  1. **合并阈值**：
+    - 只有当你 **高度确信（≥90%）** 多条记录描述的是**同一类关系语义**时，才允许合并；
+    - 若存在合理歧义，请保留为独立关系。
+
+  2. **事件型关系压缩规则（关键）**：
+    - 若多条关系在语义上完全一致，
+    - 且仅在**时间、次数、阶段等事件属性**上不同，
+    - 且无法抽象为不同的关系类型，
+    - 则应**合并为一条关系**，
+    - 并在 `Description` 中以**列表或汇总形式**保留关键事件信息（如时间点、次数顺序等）。
+
+  3. **关系一致性规则**：
+    - 被合并的关系必须具有相同或高度等价的 `Relation`；
+    - `Type` 可为空，但若存在冲突，应优先选择信息更明确、更常见的类型。
+
+  4. **内容聚合规则**：
+    - `Description`：综合所有被合并记录的关键信息，形成一条更完整、无矛盾的描述；
+    - `Attr`：可合并为并集，冲突时优先保留信息更完整或更可信的值；无法判断时可删除该字段。
+
+  5. **合并标记规则（Merge Tag）**：
+    - 在每一条输出关系中，必须增加 `merge_tag` 字段；
+    - 若该关系由 **2 条或以上原始关系合并 / 压缩而成**，设为 `true`；
+    - 若该关系未与任何其他关系合并（保持原样或单条输出），设为 `false`；
+    - `merge_tag` 仅用于标记**关系是否发生合并行为**，不影响实体含义。
+
+  6. **禁止隐式合并**：
+    - 不得因为“常识”或“背景知识”而合并关系；
+    - 合并必须能够从文本语义中被明确支持。
+
+  7. **输出纯净性规则**：
+    - 输出中不得出现输入中不存在的新事实；
+    - 不得虚构关系、时间、次数或属性。
+
+  # Output Format
+  必须输出**严格 JSON**，不要包含任何解释性文本：
+
+  {{
+    "relation_list": [
+      {{
+        "Node1": "...",
+        "Node2": "...",
+        "Relation": "...",
+        "Type": "...",
+        "Description": "...",
+        "merge_tag": true | false
+      }}
+      "mapping_table": {{
+        ("A", "B"): [("C", "D"), ("E", "F")],
+        ("G", "H"): [("I", "J"), ("K", "L")],
+      }}
+  }}
+
+  # Input Relation List
+  以下是本批次需要你处理的关系记录列表（JSON 数组）：
+
+  {relations_json}

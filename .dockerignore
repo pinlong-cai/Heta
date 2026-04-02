@@ -1,0 +1,31 @@
+# Version control
+.git
+.gitignore
+
+# Frontend (built separately)
+heta-frontend/node_modules
+heta-frontend/dist
+
+# Python artifacts
+__pycache__
+*.pyc
+*.pyo
+*.egg-info
+.eggs
+dist
+build
+.pytest_cache
+.mypy_cache
+
+# Runtime / user data
+workspace
+log
+data
+
+# Docs and notes
+docs
+*.txt
+
+# Local env
+.env
+.env.*

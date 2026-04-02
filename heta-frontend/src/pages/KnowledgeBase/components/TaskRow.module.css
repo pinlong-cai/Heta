@@ -1,0 +1,68 @@
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  border-bottom: 1px solid var(--color-border-light);
+}
+.row:last-child { border-bottom: none; }
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.name {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Status badge */
+.badge {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+.badge.pending   { background: var(--color-surface-hover); color: var(--color-text-muted); }
+.badge.running   { background: #fff3e0; color: #c96a2e; }
+.badge.completed { background: #e8f5e9; color: #4a7c59; }
+.badge.failed    { background: #fdecea; color: #b94040; }
+.badge.cancelling { background: #fff3e0; color: #a05a1a; opacity: 0.8; }
+.badge.cancelled { background: var(--color-surface-hover); color: var(--color-text-muted); }
+
+/* Progress bar */
+.barTrack {
+  height: 4px;
+  background: var(--color-border-light);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.4s ease;
+  background: var(--color-border);
+}
+.barFill.pending   { background: var(--color-border); }
+.barFill.running   { background: var(--color-accent); }
+.barFill.completed { background: var(--color-success); }
+.barFill.failed    { background: var(--color-error); }
+.barFill.cancelling { background: #e0a060; opacity: 0.6; }
+.barFill.cancelled { background: var(--color-border); }
+
+.message {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

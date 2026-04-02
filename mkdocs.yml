@@ -1,0 +1,97 @@
+site_name: Heta
+site_url: https://knowledgexllab.github.io/Heta/
+repo_url: https://github.com/KnowledgeXLab/Heta
+repo_name: KnowledgeXLab/Heta
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  logo: images/logo.png
+  favicon: images/favicon.png
+  language: en
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - content.tabs.link
+    - content.code.annotate
+    - content.code.copy
+    - navigation.expand
+    - navigation.footer
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - navigation.tracking
+    - search.suggest
+    - toc.follow
+
+plugins:
+  - search
+  - i18n:
+      docs_structure: suffix
+      languages:
+        - locale: en
+          default: true
+          name: English
+        - locale: zh
+          name: 中文
+          build: true
+
+nav:
+  - Home: index.md
+  - Quick Start:
+      - Docker Compose: quick-start/docker.md
+      - Manual Setup: quick-start/manual.md
+      - Connect MCP Clients: quick-start/mcp-clients.md
+  - HetaDB:
+      - Overview: hetadb/index.md
+      - Ingest Documents: hetadb/ingest.md
+      - Query Modes: hetadb/query-modes.md
+  - HetaMem:
+      - Overview: hetamem/index.md
+      - MemoryVG — Episodic: hetamem/memoryvg.md
+      - MemoryKB — Knowledge Graph: hetamem/memorykb.md
+      - Querying Skill: hetamem/querying-skill.md
+  - HetaGen:
+      - Overview: hetagen/index.md
+  - Reference:
+      - REST API: reference/api.md
+      - Configuration: reference/config.md
+      - Changelog: reference/changelog.md
+  - FAQ: faq.md
+  - Demo: demo.md
+
+exclude_docs: |
+  api-reference.md
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - https://unpkg.com/mermaid@11/dist/mermaid.min.js
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - attr_list
+  - md_in_html

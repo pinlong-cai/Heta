@@ -1,0 +1,91 @@
+.form { display: flex; flex-direction: column; gap: var(--space-5); }
+
+.section { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.label { font-size: var(--text-sm); font-weight: 500; color: var(--color-text-muted); }
+
+.hint { font-size: var(--text-sm); color: var(--color-text-muted); padding: var(--space-2) 0; }
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  padding: var(--space-2);
+}
+
+.checkRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-2);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+.checkRow:hover { background: var(--color-surface); }
+
+.checkbox { accent-color: var(--color-accent); width: 14px; height: 14px; cursor: pointer; }
+.dsName { font-size: var(--text-sm); color: var(--color-text); }
+
+.modeList { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.radioRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+.radioRow:hover:not(.radioDisabled) { background: var(--color-surface); }
+.radioRow input { accent-color: var(--color-accent); cursor: pointer; margin-top: 2px; flex-shrink: 0; }
+
+.radioDisabled { opacity: 0.4; cursor: not-allowed; }
+.radioDisabled input { cursor: not-allowed; }
+
+.modeText { display: flex; flex-direction: column; gap: 2px; }
+.modeLabel { font-size: var(--text-sm); color: var(--color-text); font-weight: 500; }
+.modeDesc  { font-size: var(--text-xs); color: var(--color-text-muted); line-height: 1.4; }
+
+.error { font-size: var(--text-sm); color: var(--color-error); }
+
+.actions { display: flex; justify-content: flex-end; gap: var(--space-3); }
+
+/* Conflict confirmation */
+
+.conflictBox {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-warning);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-warning) 8%, transparent);
+}
+
+.conflictWarn {
+  font-size: var(--text-sm);
+  color: var(--color-warning);
+  line-height: 1.5;
+}
+
+.conflictList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.conflictItem {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--space-1) 0;
+}

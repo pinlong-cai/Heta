@@ -1,0 +1,32 @@
+__pycache__/
+*.pyc
+.env
+.venv/
+dist/
+build/
+*.egg-info/
+data/
+log/
+logs/
+/MemoryKB/
+/workspace
+
+# User config (copy from config.example.yaml — never commit real API keys)
+config.yaml
+
+# MemoryKB runtime data (generated at runtime, not source code)
+src/hetamem/MemoryKB/Long_Term_Memory/Graph_Construction/MMKG/
+src/hetamem/MemoryKB/Long_Term_Memory/memory_chunks/
+src/hetamem/MemoryKB/User_Conversation/conversation.json
+
+# Session transcript files
+*.txt
+
+# Frontend
+heta-frontend/node_modules/
+heta-frontend/dist/
+
+
+# Eval reports (generated output)
+tests/eval/report/
+site/
