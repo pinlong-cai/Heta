@@ -1,0 +1,32 @@
+.layout {
+  display: flex;
+  flex: 1;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.placeholder {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  padding: var(--space-8) 0;
+}
+
+.error {
+  color: var(--color-error);
+  font-size: var(--text-sm);
+  padding: var(--space-4) 0;
+}

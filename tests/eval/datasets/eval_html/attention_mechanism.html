@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attention Mechanism in Machine Learning</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; }
+    h1 { color: #2c3e50; }
+    h2 { color: #34495e; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+    table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+    th, td { border: 1px solid #999; padding: 8px 12px; text-align: left; }
+    th { background-color: #f2f2f2; font-weight: bold; }
+    code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: monospace; }
+    .formula { background: #f9f9f9; padding: 12px; border-left: 4px solid #3498db; margin: 12px 0; }
+    .note { background: #fff3cd; padding: 10px; border-left: 4px solid #ffc107; margin: 12px 0; }
+  </style>
+</head>
+<body>
+
+<h1>Attention Mechanism in Machine Learning</h1>
+<p><em>Source: arXiv:1409.0473 (Bahdanau et al., 2014) and arXiv:1706.03762 (Vaswani et al., 2017)</em></p>
+
+<h2>1. Overview</h2>
+<p>
+  The <strong>attention mechanism</strong> is a technique in machine learning that allows models to
+  selectively focus on relevant parts of the input when producing each part of the output,
+  rather than compressing all input information into a single fixed-length vector.
+</p>
+<p>
+  Attention was first introduced for neural machine translation by
+  <strong>Dzmitry Bahdanau, Kyunghyun Cho, and Yoshua Bengio</strong> in their 2014 paper
+  "Neural Machine Translation by Jointly Learning to Align and Translate"
+  (arXiv:1409.0473), accepted at <strong>ICLR 2015</strong> as an oral presentation.
+</p>
+<div class="note">
+  <strong>Key insight (Bahdanau et al.):</strong> "The use of a fixed-length vector is a bottleneck
+  in improving the performance of this basic encoder-decoder architecture." The attention mechanism
+  allows models to automatically (soft-)search for parts of a source sentence that are relevant to
+  predicting a target word.
+</div>
+
+<h2>2. Types of Attention</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Key Paper</th>
+      <th>Year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Soft / Global Attention</td>
+      <td>Attends to all input positions with a weighted combination</td>
+      <td>Bahdanau et al.</td>
+      <td>2014</td>
+    </tr>
+    <tr>
+      <td>Hard Attention</td>
+      <td>Selects a single input position; non-differentiable, uses REINFORCE</td>
+      <td>Xu et al. (Show, Attend and Tell)</td>
+      <td>2015</td>
+    </tr>
+    <tr>
+      <td>Self-Attention</td>
+      <td>Each position attends to all positions in the same sequence</td>
+      <td>Vaswani et al. (Transformer)</td>
+      <td>2017</td>
+    </tr>
+    <tr>
+      <td>Multi-Head Attention</td>
+      <td>h parallel attention heads applied simultaneously</td>
+      <td>Vaswani et al. (Transformer)</td>
+      <td>2017</td>
+    </tr>
+    <tr>
+      <td>Cross-Attention</td>
+      <td>Queries from one sequence attend to keys/values from another</td>
+      <td>Vaswani et al. (Transformer)</td>
+      <td>2017</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>3. Scaled Dot-Product Attention</h2>
+<p>
+  The Transformer (Vaswani et al., 2017) introduced <strong>scaled dot-product attention</strong>,
+  defined as:
+</p>
+<div class="formula">
+  <code>Attention(Q, K, V) = softmax( Q·K<sup>T</sup> / √d<sub>k</sub> ) · V</code>
+</div>
+<p>
+  where <code>Q</code> is the matrix of queries, <code>K</code> is the matrix of keys,
+  <code>V</code> is the matrix of values, and <code>d<sub>k</sub></code> is the dimension of
+  the key vectors. The scaling factor <code>1/√d<sub>k</sub></code> is applied to prevent
+  large dot products from pushing the softmax function into regions with extremely small
+  gradients.
+</p>
+<p>
+  Within the Transformer team, <strong>Noam Shazeer</strong> proposed scaled dot-product
+  attention, multi-head attention, and the parameter-free position representation.
+</p>
+
+<h2>4. Multi-Head Attention</h2>
+<p>
+  Multi-head attention allows the model to jointly attend to information from different
+  representation subspaces at different positions. The Transformer uses <strong>h = 8</strong>
+  parallel attention heads:
+</p>
+<div class="formula">
+  <code>MultiHead(Q, K, V) = Concat(head<sub>1</sub>, ..., head<sub>h</sub>) · W<sub>O</sub></code><br>
+  <code>where head<sub>i</sub> = Attention(Q·W<sub>i</sub><sup>Q</sup>, K·W<sub>i</sub><sup>K</sup>, V·W<sub>i</sub><sup>V</sup>)</code>
+</div>
+<p>
+  With <code>d<sub>model</sub> = 512</code> and <code>h = 8</code>, each head operates
+  in a subspace of dimension <code>d<sub>k</sub> = d<sub>v</sub> = 64</code>.
+</p>
+
+<h2>5. Self-Attention vs. Recurrence: Computational Complexity</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Layer Type</th>
+      <th>Complexity per Layer</th>
+      <th>Sequential Operations</th>
+      <th>Maximum Path Length</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Self-Attention</td>
+      <td>O(n² · d)</td>
+      <td>O(1)</td>
+      <td>O(1)</td>
+    </tr>
+    <tr>
+      <td>Recurrent (RNN)</td>
+      <td>O(n · d²)</td>
+      <td>O(n)</td>
+      <td>O(n)</td>
+    </tr>
+    <tr>
+      <td>Convolutional</td>
+      <td>O(k · n · d²)</td>
+      <td>O(1)</td>
+      <td>O(log<sub>k</sub>(n))</td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  Self-attention connects all positions with a constant number of sequential operations,
+  whereas RNNs require O(n) sequential operations — a key advantage for parallelization
+  during training.
+</p>
+
+<h2>6. Applications</h2>
+<ul>
+  <li><strong>Machine Translation:</strong> Original application of Bahdanau attention (EN-FR).</li>
+  <li><strong>Image Captioning:</strong> "Show, Attend and Tell" (Xu et al., 2015) applied
+      attention to visual features for caption generation.</li>
+  <li><strong>Question Answering:</strong> Attention over passages to locate answer spans.</li>
+  <li><strong>Pre-trained Language Models:</strong> BERT, GPT-2, GPT-3 and all modern LLMs
+      are based on the Transformer architecture with multi-head self-attention.</li>
+  <li><strong>Computer Vision:</strong> Vision Transformer (ViT) applies self-attention
+      directly to sequences of image patches.</li>
+</ul>
+
+<h2>7. References</h2>
+<ol>
+  <li>Bahdanau, D., Cho, K., &amp; Bengio, Y. (2014). Neural Machine Translation by Jointly
+      Learning to Align and Translate. <em>arXiv:1409.0473</em>. ICLR 2015 (oral).</li>
+  <li>Vaswani, A., Shazeer, N., Parmar, N., et al. (2017). Attention Is All You Need.
+      <em>arXiv:1706.03762</em>. NeurIPS 2017.</li>
+  <li>Xu, K., Ba, J., Kiros, R., et al. (2015). Show, Attend and Tell: Neural Image Caption
+      Generation with Visual Attention. <em>ICML 2015</em>.</li>
+</ol>
+
+</body>
+</html>

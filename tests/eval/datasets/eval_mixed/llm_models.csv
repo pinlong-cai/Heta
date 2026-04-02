@@ -1,0 +1,31 @@
+Model,Organization,Parameters,Release Year,Architecture,License
+GPT-1,OpenAI,117M,2018,Transformer decoder,Proprietary
+BERT-Base,Google,110M,2018,Transformer encoder,Apache 2.0
+BERT-Large,Google,340M,2018,Transformer encoder,Apache 2.0
+GPT-2,OpenAI,1.5B,2019,Transformer decoder,MIT
+T5-11B,Google,11B,2019,Encoder-decoder,Apache 2.0
+GPT-3,OpenAI,175B,2020,Transformer decoder,Proprietary
+GShard,Google,600B,2021,Mixture-of-Experts,Proprietary
+Switch Transformer,Google,1.6T,2021,Sparse MoE,Apache 2.0
+Megatron-Turing NLG,Microsoft + NVIDIA,530B,2021,Transformer decoder,Proprietary
+LaMDA,Google,137B,2021,Transformer decoder,Proprietary
+PaLM,Google,540B,2022,Transformer decoder,Proprietary
+Chinchilla,DeepMind,70B,2022,Transformer decoder,Proprietary
+BLOOM,BigScience,176B,2022,Transformer decoder,RAIL
+OPT-175B,Meta AI,175B,2022,Transformer decoder,Non-commercial
+CodeGen,Salesforce,16B,2022,Transformer decoder,Apache 2.0
+LLaMA,Meta AI,65B,2023,Transformer decoder,Non-commercial
+GPT-4,OpenAI,Unknown,2023,Transformer (MoE est.),Proprietary
+LLaMA 2,Meta AI,70B,2023,Transformer decoder,Custom
+Mistral 7B,Mistral AI,7B,2023,Transformer decoder,Apache 2.0
+Falcon,Technology Innovation Institute,180B,2023,Transformer decoder,Apache 2.0
+Claude 2,Anthropic,Unknown,2023,Constitutional AI,Proprietary
+Gemini Ultra,Google DeepMind,Unknown,2023,Multimodal Transformer,Proprietary
+Llama 3 8B,Meta AI,8B,2024,Transformer decoder,Custom
+Llama 3 70B,Meta AI,70B,2024,Transformer decoder,Custom
+Llama 3 405B,Meta AI,405B,2024,Transformer decoder,Custom
+GPT-4o,OpenAI,Unknown,2024,Multimodal Transformer,Proprietary
+Mistral Large,Mistral AI,Unknown,2024,Transformer decoder,Proprietary
+Gemma 2B,Google,2B,2024,Transformer decoder,Apache 2.0
+Gemma 7B,Google,7B,2024,Transformer decoder,Apache 2.0
+Qwen2 72B,Alibaba,72B,2024,Transformer decoder,Apache 2.0

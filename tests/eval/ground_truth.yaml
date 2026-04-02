@@ -1,0 +1,360 @@
+# HetaDB Evaluation Ground Truth
+# Format:
+#   id:           unique identifier
+#   dataset:      dataset name (must match raw_files directory)
+#   query:        the question sent to the query API
+#   expected:     exact short answer (used for keyword match scoring)
+#   keywords:     list of strings that MUST appear in the response (case-insensitive)
+#   eval_type:    exact | semantic | structural | negative | multihop
+#   difficulty:   easy | medium | hard
+#   notes:        optional explanation
+
+# ─────────────────────────────────────────────────────────────
+# eval_text — transformer_paper.txt + llm_overview.md
+# ─────────────────────────────────────────────────────────────
+
+- id: text-01
+  dataset: eval_text
+  query: "What BLEU score did the Transformer big model achieve on WMT 2014 English-to-German translation? Please answer in English."
+  expected: "28.4"
+  keywords: ["28.4", "BLEU", "English-to-German"]
+  eval_type: exact
+  difficulty: easy
+  notes: "Direct numeric fact. Answer is in transformer_paper.txt section 4."
+
+- id: text-02
+  dataset: eval_text
+  query: "How many encoder layers does the base Transformer model use? Please answer in English."
+  expected: "6"
+  keywords: ["6", "encoder", "layers"]
+  eval_type: exact
+  difficulty: easy
+  notes: "Explicit in model architecture section: N=6 identical layers."
+
+- id: text-03
+  dataset: eval_text
+  query: "How many parallel attention heads does the Transformer use in multi-head attention?"
+  expected: "8"
+  keywords: ["8", "attention heads", "multi-head"]
+  eval_type: exact
+  difficulty: easy
+  notes: "h=8 stated explicitly in section 2.2."
+
+- id: text-04
+  dataset: eval_text
+  query: "Who proposed scaled dot-product attention and multi-head attention within the Transformer team?"
+  expected: "Noam Shazeer"
+  keywords: ["Noam Shazeer"]
+  eval_type: exact
+  difficulty: medium
+  notes: "Attribution fact buried in author contribution notes."
+
+- id: text-05
+  dataset: eval_text
+  query: "How much smaller is DistilBERT compared to BERT-Large, and how much faster is it?"
+  expected: "40% smaller and 60% faster"
+  keywords: ["40%", "60%", "DistilBERT"]
+  eval_type: exact
+  difficulty: medium
+  notes: "Multi-attribute fact from llm_overview.md."
+
+- id: text-06
+  dataset: eval_text
+  query: "How many pages is the survey paper 'A Survey of Large Language Models' on arXiv?"
+  expected: "144"
+  keywords: ["144", "pages"]
+  eval_type: exact
+  difficulty: medium
+  notes: "Specific metadata fact from llm_overview.md."
+
+- id: text-07
+  dataset: eval_text
+  query: "What are the four emergent abilities mentioned for large language models?"
+  expected: "in-context learning, instruction following, chain-of-thought reasoning, code generation"
+  keywords: ["in-context learning", "chain-of-thought", "instruction"]
+  eval_type: semantic
+  difficulty: hard
+  notes: "Requires synthesizing a list from the emergent abilities section."
+
+- id: text-08
+  dataset: eval_text
+  query: "What are the names of the anonymous reviewers who reviewed the Transformer paper before publication? Please answer in English."
+  expected: "The document does not mention reviewer names. Peer review identities are not disclosed in the paper."
+  keywords: []
+  eval_type: negative
+  difficulty: medium
+  notes: "Negative test: reviewer names are never published. System must not hallucinate names."
+
+# ─────────────────────────────────────────────────────────────
+# eval_html — attention_mechanism.html
+# ─────────────────────────────────────────────────────────────
+
+- id: html-01
+  dataset: eval_html
+  query: "Who authored the original neural attention mechanism paper for machine translation?"
+  expected: "Dzmitry Bahdanau, Kyunghyun Cho, and Yoshua Bengio"
+  keywords: ["Bahdanau", "Cho", "Bengio"]
+  eval_type: exact
+  difficulty: easy
+  notes: "Author attribution in HTML section 1."
+
+- id: html-02
+  dataset: eval_html
+  query: "At which conference was the Bahdanau attention paper accepted and in what presentation format?"
+  expected: "ICLR 2015, oral presentation"
+  keywords: ["ICLR 2015", "oral"]
+  eval_type: exact
+  difficulty: easy
+  notes: "Two-part answer from HTML metadata block."
+
+- id: html-03
+  dataset: eval_html
+  query: "What is the computational complexity per layer for self-attention?"
+  expected: "O(n squared times d)"
+  keywords: ["O(n²", "n²"]
+  eval_type: exact
+  difficulty: medium
+  notes: "From the complexity comparison table in the HTML."
+
+- id: html-04
+  dataset: eval_html
+  query: "What is the sequential operations complexity for recurrent (RNN) layers?"
+  expected: "O(n)"
+  keywords: ["O(n)", "sequential"]
+  eval_type: exact
+  difficulty: medium
+  notes: "Table lookup question: RNN row, Sequential Operations column."
+
+- id: html-05
+  dataset: eval_html
+  query: "What are the five types of attention described in the document?"
+  expected: "Soft/Global Attention, Hard Attention, Self-Attention, Multi-Head Attention, Cross-Attention"
+  keywords: ["self-attention", "multi-head", "cross-attention", "hard attention"]
+  eval_type: semantic
+  difficulty: hard
+  notes: "Requires reading and synthesizing the attention types table."
+
+- id: html-06
+  dataset: eval_html
+  query: "Why is the scaling factor 1/sqrt(d_k) applied in scaled dot-product attention?"
+  expected: "To prevent large dot products from pushing the softmax function into regions with extremely small gradients"
+  keywords: ["gradient", "softmax", "large dot products"]
+  eval_type: semantic
+  difficulty: medium
+  notes: "Reasoning-based retrieval from the formula explanation section."
+
+# ─────────────────────────────────────────────────────────────
+# eval_pdf — rag_paper.pdf
+# ─────────────────────────────────────────────────────────────
+
+- id: pdf-01
+  dataset: eval_pdf
+  query: "At which major conference was the RAG paper accepted?"
+  expected: "NeurIPS 2020"
+  keywords: ["NeurIPS 2020", "NeurIPS"]
+  eval_type: exact
+  difficulty: easy
+  notes: "Metadata in PDF header."
+
+- id: pdf-02
+  dataset: eval_pdf
+  query: "How many Wikipedia document chunks does the RAG non-parametric memory index contain?"
+  expected: "21 million"
+  keywords: ["21 million"]
+  eval_type: exact
+  difficulty: easy
+  notes: "Explicit number in Implementation Details section."
+
+- id: pdf-03
+  dataset: eval_pdf
+  query: "What is the Exact Match score of RAG-Sequence on the Natural Questions dataset?"
+  expected: "44.5"
+  keywords: ["44.5", "Natural Questions"]
+  eval_type: exact
+  difficulty: medium
+  notes: "Table lookup in Open-Domain QA Results section."
+
+- id: pdf-04
+  dataset: eval_pdf
+  query: "What seq2seq model does RAG use as its parametric component, and how many parameters does it have?"
+  expected: "BART-large with 400 million parameters"
+  keywords: ["BART", "400 million"]
+  eval_type: exact
+  difficulty: medium
+  notes: "Two-part fact from Implementation Details."
+
+- id: pdf-05
+  dataset: eval_pdf
+  query: "How many authors contributed to the RAG paper?"
+  expected: "12"
+  keywords: ["12"]
+  eval_type: exact
+  difficulty: hard
+  notes: "Requires counting from the author list. Tests fine-grained entity extraction."
+
+- id: pdf-06
+  dataset: eval_pdf
+  query: "In what percentage of human evaluations was RAG more factual than BART?"
+  expected: "42.7%"
+  keywords: ["42.7", "factual"]
+  eval_type: exact
+  difficulty: medium
+  notes: "Specific percentage from Human Evaluation section."
+
+- id: pdf-07
+  dataset: eval_pdf
+  query: "What is the distinct n-gram ratio for gold human-written answers compared to BART?"
+  expected: "Gold: 90.0%, BART: 32.4%"
+  keywords: ["90.0", "32.4", "BART", "gold"]
+  eval_type: exact
+  difficulty: hard
+  notes: "Requires finding two numbers from the Generation Diversity section."
+
+# ─────────────────────────────────────────────────────────────
+# eval_table — llm_models.csv + llm_models.xlsx
+# ─────────────────────────────────────────────────────────────
+
+- id: table-01
+  dataset: eval_table
+  query: "How many parameters does GPT-3 have?"
+  expected: "175 billion"
+  keywords: ["175"]
+  eval_type: structural
+  difficulty: easy
+  notes: "Direct CSV cell lookup: GPT-3 row, Parameters column."
+
+- id: table-02
+  dataset: eval_table
+  query: "Which organization released the Megatron-Turing NLG model?"
+  expected: "Microsoft and NVIDIA"
+  keywords: ["Microsoft", "NVIDIA"]
+  eval_type: structural
+  difficulty: easy
+  notes: "CSV lookup: Megatron-Turing NLG row, Organization column."
+
+- id: table-03
+  dataset: eval_table
+  query: "What year was BERT first released?"
+  expected: "2018"
+  keywords: ["2018"]
+  eval_type: structural
+  difficulty: easy
+  notes: "BERT-Base and BERT-Large both show 2018."
+
+- id: table-04
+  dataset: eval_table
+  query: "How many parameters does the Switch Transformer have?"
+  expected: "1.6 trillion"
+  keywords: ["1.6T", "1.6 trillion"]
+  eval_type: structural
+  difficulty: easy
+  notes: "Switch Transformer row, Parameters = 1.6T."
+
+- id: table-05
+  dataset: eval_table
+  query: "How many models in the dataset are licensed under Apache 2.0?"
+  expected: "10"
+  keywords: ["10", "Apache 2.0"]
+  eval_type: structural
+  difficulty: hard
+  notes: "Requires aggregation/counting: BERT-Base, BERT-Large, T5-11B, Switch Transformer, CodeGen, Mistral 7B, Falcon, Gemma 2B, Gemma 7B, Qwen2 72B = 10."
+
+- id: table-06
+  dataset: eval_table
+  query: "Which models were released in 2022 and have more than 100 billion parameters?"
+  expected: "PaLM (540B), Chinchilla (70B is less than 100B, so: PaLM 540B, BLOOM 176B, OPT-175B 175B)"
+  keywords: ["PaLM", "BLOOM", "OPT", "2022"]
+  eval_type: structural
+  difficulty: hard
+  notes: "Filter query: year=2022 AND parameters > 100B. PaLM 540B, BLOOM 176B, OPT-175B 175B qualify."
+
+- id: table-07
+  dataset: eval_table
+  query: "What architecture does Mistral 7B use and who developed it?"
+  expected: "Transformer decoder, developed by Mistral AI"
+  keywords: ["Transformer decoder", "Mistral AI"]
+  eval_type: structural
+  difficulty: easy
+  notes: "Two-column lookup on the Mistral 7B row."
+
+# ─────────────────────────────────────────────────────────────
+# eval_image — gpt4_mmlu_multilingual.png + gpt4_exam_results.png
+# Source: GPT-4 Technical Report (OpenAI, arXiv:2303.08774), Figures 5 & 4
+# ─────────────────────────────────────────────────────────────
+
+- id: image-01
+  dataset: eval_image
+  query: "What is the title of the chart shown in the image gpt4_mmlu_multilingual?"
+  expected: "GPT-4 3-shot accuracy on MMLU across languages"
+  keywords: ["GPT-4", "MMLU", "languages"]
+  eval_type: exact
+  difficulty: easy
+  notes: "VLM must read the chart title from gpt4_mmlu_multilingual.png."
+
+- id: image-02
+  dataset: eval_image
+  query: "According to the MMLU multilingual chart, what is GPT-4's accuracy on English?"
+  expected: "85.5%"
+  keywords: ["85.5"]
+  eval_type: exact
+  difficulty: easy
+  notes: "The 'GPT-4 English' bar is labeled 85.5%. Direct numeric read."
+
+- id: image-03
+  dataset: eval_image
+  query: "In the MMLU multilingual chart, which language shows the lowest GPT-4 accuracy and what is that value?"
+  expected: "Telugu at 62.0%"
+  keywords: ["Telugu", "62.0"]
+  eval_type: exact
+  difficulty: medium
+  notes: "Telugu is the bottom bar, labeled 62.0%."
+
+- id: image-04
+  dataset: eval_image
+  query: "What is the title of the exam results chart?"
+  expected: "Exam results (ordered by GPT-3.5 performance)"
+  keywords: ["Exam results", "GPT-3.5", "performance"]
+  eval_type: exact
+  difficulty: easy
+  notes: "VLM must read the title from gpt4_exam_results.png."
+
+- id: image-05
+  dataset: eval_image
+  query: "In the exam results chart, what color represents GPT-3.5 in the legend, and what is the Y-axis label?"
+  expected: "GPT-3.5 is blue; Y-axis is 'Estimated percentile lower bound (among test takers)'"
+  keywords: ["blue", "percentile", "test takers"]
+  eval_type: semantic
+  difficulty: medium
+  notes: "Tests legend color reading and axis label reading from gpt4_exam_results.png."
+
+# ─────────────────────────────────────────────────────────────
+# eval_mixed — transformer_paper.txt + llm_models.csv
+# Multi-hop: requires connecting facts across files
+# ─────────────────────────────────────────────────────────────
+
+- id: mixed-01
+  dataset: eval_mixed
+  query: "The Transformer paper's training used 8 NVIDIA P100 GPUs. According to the models table, which year was GPT-3 released and how many parameters does it have?"
+  expected: "GPT-3 was released in 2020 and has 175 billion parameters"
+  keywords: ["2020", "175", "GPT-3"]
+  eval_type: multihop
+  difficulty: medium
+  notes: "Part 1 from TXT, Part 2 from CSV. Tests cross-file retrieval."
+
+- id: mixed-02
+  dataset: eval_mixed
+  query: "The Transformer uses 8 attention heads and d_model=512. What dimension does each head operate in, and which organization released a model with 530 billion parameters in 2021?"
+  expected: "Each head operates in dimension 64 (512/8=64). The 530B model is Megatron-Turing NLG by Microsoft and NVIDIA."
+  keywords: ["64", "530", "Megatron", "Microsoft", "NVIDIA"]
+  eval_type: multihop
+  difficulty: hard
+  notes: "Requires arithmetic from TXT (512/8=64) and CSV lookup for 530B model."
+
+- id: mixed-03
+  dataset: eval_mixed
+  query: "The Transformer big model was trained for 3.5 days on 8 GPUs. How many models in the CSV table were released after 2022 with Apache 2.0 license?"
+  expected: "Mistral 7B (2023), Falcon (2023), Gemma 2B (2024), Gemma 7B (2024), Qwen2 72B (2024) — 5 models"
+  keywords: ["Mistral", "Falcon", "Gemma", "Qwen", "5"]
+  eval_type: multihop
+  difficulty: hard
+  notes: "TXT sets context; CSV filter: year > 2022 AND license = Apache 2.0. Qualifiers: Mistral 7B, Falcon, Gemma 2B, Gemma 7B, Qwen2 72B = 5."

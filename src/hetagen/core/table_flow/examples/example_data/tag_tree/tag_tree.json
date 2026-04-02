@@ -1,0 +1,268 @@
+{
+  "tree_name": "生物分类标签树",
+  "tree_description": "基于生物分类学构建的标签体系",
+  "nodes": [
+    {
+      "node_name": "Animalia",
+      "category": "Animalia",
+      "description": "动物界（Animalia）是一类多细胞真核生物，具有异养生活方式，即通过摄取有机物获取营养。其细胞无细胞壁，通常具有运动能力，能对外界刺激作出反应。动物体结构复杂，多数具有组织、器官和系统分化，如消化系统、神经系统和循环系统等。动物界成员在发育过程中通常经历胚胎阶段，具有特定的胚胎发育模式，如原肠胚形成。它们通过有性生殖繁衍后代，多数为雌雄异体。动物界包括从简单腔肠动物到高等脊椎动物的广泛类群，是生物多样性最丰富的界之一。",
+      "children": [
+        {
+          "node_name": "Chordata",
+          "category": "Animalia -> Chordata",
+          "description": "脊索动物门（Chordata）是一类具有脊索（notochord）、背神经管（dorsal nerve cord）、鳃裂（pharyngeal slits）和肛后尾（post-anal tail）等关键特征的动物。这些结构在胚胎发育阶段通常出现，部分在成体中保留或演化为其他器官。脊索是位于身体背部的一条柔性支撑结构，替代或辅助骨骼功能；背神经管发育为中枢神经系统；鳃裂在水生种类中用于呼吸，在陆生种类中演化为其他结构；肛后尾则为运动提供助力。脊索动物包括鱼类、两栖类、爬行类、鸟类和哺乳类等，是动物界中高度进化的类群，具有复杂的器官系统和较高的神经系统发育水平。",
+          "children": [
+            {
+              "node_name": "Mammalia",
+              "category": "Animalia -> Chordata -> Mammalia",
+              "description": "哺乳动物（Mammalia）是一类恒温脊椎动物，具有高度发达的神经系统和复杂的行为模式。其主要特征包括：体表被毛（毛发），具有乳腺，能分泌乳汁哺育幼崽；拥有高度特化的牙齿分化（门齿、犬齿、前臼齿、臼齿）；具有膈肌，辅助呼吸；多数为胎生（除单孔类外），胚胎在母体内发育；大脑发达，尤其是新皮质区域。哺乳动物的中耳通常由三块听小骨（锤骨、砧骨、镫骨）构成，提高了听觉灵敏度。它们广泛分布于陆地、水域和空中，适应多种生态环境，是动物界中智力和行为多样性最高的类群之一。",
+              "children": [
+                {
+                  "node_name": "Carnivora",
+                  "category": "Animalia -> Chordata -> Mammalia -> Carnivora",
+                  "description": "食肉目（Carnivora）是哺乳动物中一个重要的目，主要特征为具有发达的犬齿和裂齿，适应于捕食和撕咬肉类食物。其成员多为陆生或半水生的肉食性动物，包括猫科、犬科、熊科、鼬科、海狮科等。食肉目动物通常具有敏锐的感官（如视觉、听觉和嗅觉），以及强健的四肢和灵活的身体结构，利于追捕猎物。多数种类为独居或小群体生活，繁殖方式为胎生，幼崽出生后需较长时间哺乳与抚育。该目广泛分布于全球各地，从极地到热带均有代表物种，是生态系统中重要的顶级捕食者或次级消费者。",
+                  "children": [
+                    {
+                      "node_name": "Felidae",
+                      "category": "Animalia -> Chordata -> Mammalia -> Carnivora -> Felidae",
+                      "description": "Felidae（猫科）是哺乳纲食肉目下的一个科，包含现存约40种肉食性哺乳动物，如家猫、狮子、老虎、豹等。其主要特征包括：身体灵活，四肢强健，爪可伸缩，牙齿高度特化（具发达的裂齿），视觉和听觉敏锐，多为夜行性或晨昏活动。猫科动物普遍具有敏锐的捕猎能力，多数为独居或小群体生活，以其他动物为食。它们的头骨结构、下颌关节及脑部发育均适应于快速捕猎和高效进食。猫科动物广泛分布于全球除南极洲外的各大洲，栖息环境多样，从热带雨林到沙漠均有分布。",
+                      "children": [
+                        {
+                          "node_name": "Felis",
+                          "category": "Animalia -> Chordata -> Mammalia -> Carnivora -> Felidae -> Felis",
+                          "description": "“Felis”是猫科（Felidae）中的一个属，中文称为“猫属”，包含多种小型至中型的食肉哺乳动物，如家猫、野猫、黑足猫等。该属动物具有典型的猫科特征：体型灵活，四肢强健，爪可伸缩，牙齿锐利，适应捕猎生活；感官敏锐，尤其夜视能力突出；多数为独居或小群体生活，具有领地意识。猫属动物广泛分布于全球各地，适应多种生态环境，从沙漠到森林均有栖息。其行为以伏击捕食为主，食性以小型哺乳动物、鸟类和爬行动物为主。家猫（Felis catus）是人类最早驯化的动物之一，与人类关系密切，常作为宠物饲养。",
+                          "children": [
+                            {
+                              "node_name": "Felis catus",
+                              "category": "Animalia -> Chordata -> Mammalia -> Carnivora -> Felidae -> Felis -> Felis catus",
+                              "description": "“Felis catus”即家猫，是哺乳纲（Mammalia）、食肉目（Carnivora）、猫科（Felidae）、猫属（Felis）的一种小型哺乳动物。其体形纤巧，四肢短健，爪具伸缩性，适于攀爬与捕猎；头圆耳尖，眼大且具夜视能力，听觉灵敏。毛色多样，常见有白、黑、橘、虎斑等。家猫为肉食性动物，以小型啮齿类、鸟类等为食，亦可人工饲喂。性情温顺，善与人类互动，常作为宠物饲养。其繁殖力强，孕期约63天，每胎产仔2-6只。家猫由野生猫驯化而来，广泛分布于全球，是人类生活中常见的伴侣动物。",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "node_name": "Panthera",
+                          "category": "Animalia -> Chordata -> Mammalia -> Carnivora -> Felidae -> Panthera",
+                          "description": "“Panthera”是猫科（Felidae）中一个重要的属，中文称为“豹属”，包含多种大型野生猫科动物，如狮子、老虎、豹、美洲豹和雪豹等。该属物种具有典型的猫科动物特征，如强健的体格、锋利的犬齿、可伸缩的爪子以及发达的夜视能力。它们多为顶级捕食者，广泛分布于全球多种生态环境中，从热带雨林到草原、山地均有栖息。豹属动物通常具有强大的咬合力，尤其是其下颌结构适应于咬碎猎物头骨，是其分类的重要依据之一。此外，部分物种如狮子具有明显的社会性，而其他成员则多为独居。豹属动物在生态系统中扮演关键角色，但多数物种因栖息地丧失和人类活动而面临生存威胁。",
+                          "children": [
+                            {
+                              "node_name": "Panthera leo",
+                              "category": "Animalia -> Chordata -> Mammalia -> Carnivora -> Felidae -> Panthera -> Panthera leo",
+                              "description": "“Panthera leo”即狮子，是哺乳纲、食肉目、猫科、豹属的一种大型猫科动物。狮子体形健壮，雄性通常具有显著的鬃毛，体长可达2.5米，体重可达190公斤以上。它们主要分布于非洲撒哈拉以南地区及印度吉尔森林，栖息于草原、疏林和半荒漠地带。狮子是社会性动物，通常以群体（狮群）形式生活，由雌狮负责狩猎，雄狮负责领地防御。其食性为肉食，主要捕食羚羊、斑马等大型哺乳动物。狮子具有强大的咬合力和敏捷的捕猎能力，是生态系统中的顶级掠食者之一，被誉为“草原之王”。",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "node_name": "Canidae",
+                      "category": "Animalia -> Chordata -> Mammalia -> Carnivora -> Canidae",
+                      "description": "犬科（Canidae）是哺乳纲食肉目下的一个科，主要包括犬、狼、狐狸、豺等动物。它们通常具有狭长的吻部、发达的犬齿和非肉垫型足，适应于奔跑和捕猎。犬科动物多为群居或半群居，具有复杂的社会行为和良好的听觉、嗅觉。它们的食性多为杂食或肉食，部分种类如狐狸以小型动物、果实和昆虫为食。犬科成员广泛分布于全球各地，从寒带至热带均有栖息，适应性强。其典型特征还包括直立的耳朵、长尾巴以及高度发达的嗅觉系统，这些特征使其在捕猎和环境感知中具有显著优势。",
+                      "children": [
+                        {
+                          "node_name": "Canis",
+                          "category": "Animalia -> Chordata -> Mammalia -> Carnivora -> Canidae -> Canis",
+                          "description": "“Canis”是犬属的学名，属于哺乳纲（Mammalia）、食肉目（Carnivora）、犬科（Canidae）的一类哺乳动物。该属物种通常具有敏锐的嗅觉、发达的听觉和强健的四肢，适应于奔跑和狩猎。它们多为社会性动物，常以群体形式活动，具有复杂的交流方式，如吠叫、呜咽和肢体语言。犬属动物的牙齿结构适合撕咬和咀嚼肉类，犬齿发达，臼齿适合切割食物。典型代表包括灰狼（Canis lupus）、郊狼（Canis coyotes）和家犬（Canis lupus familiaris）。它们广泛分布于北半球的多种生态环境中，从森林到草原均有栖息。",
+                          "children": [
+                            {
+                              "node_name": "Canis lupus",
+                              "category": "Animalia -> Chordata -> Mammalia -> Carnivora -> Canidae -> Canis -> Canis lupus",
+                              "description": "“Canis lupus”即灰狼，是哺乳纲（Mammalia）、食肉目（Carnivora）、犬科（Canidae）、犬属（Canis）的一种大型野生犬科动物。其体形健壮，体长通常在1-1.5米，肩高约60-90厘米，体重可达30-80公斤，毛色多为灰、棕、黑或白色，具有适应不同栖息环境的变异性。灰狼具有高度社会性，常以家族群体（狼群）形式活动，由一对优势个体领导，擅长协作狩猎。其食性以肉食为主，捕食鹿、野兔、啮齿类等动物，亦可食腐。灰狼分布广泛，原生于北半球的森林、草原、苔原及山地等多种生态系统，是生态系统中的顶级捕食者之一，对维持生态平衡具有重要作用。",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "node_name": "Aves",
+              "category": "Animalia -> Chordata -> Aves",
+              "description": "Aves（鸟纲）是脊索动物门（Chordata）下的一个纲，其主要特征包括：体表被覆羽毛（羽毛是鸟类独有的衍生物），前肢演化为翼，具有高代谢率和恒温（温血）特性，骨骼轻而坚固，多具气囊辅助呼吸，卵生且通常有孵卵和育雏行为。鸟类具有发达的视觉和听觉系统，多数能飞行，少数因适应环境而失去飞行能力（如鸵鸟、企鹅）。其消化系统高效，无牙齿，以喙取食。鸟类在生态系统中扮演重要角色，广泛分布于全球各地，现存约1万种，是脊椎动物中种类丰富、适应性强的类群之一。",
+              "children": [
+                {
+                  "node_name": "Passeriformes",
+                  "category": "Animalia -> Chordata -> Aves -> Passeriformes",
+                  "description": "Passeriformes（雀形目）是鸟类中种类最多、分布最广的一个目，包含约6000种，占现存鸟类总数的一半以上。其主要特征包括：具高度发达的鸣管，能发出复杂多样的鸣叫声；足部结构适应于攀缘和抓握，三趾向前、一趾向后，利于栖息于树枝；多数为小型鸟类，体态轻巧，食性多样，包括食虫、食果、食种子等。雀形目鸟类广泛分布于全球各地，尤其在热带和温带地区最为丰富，常见种类如麻雀、燕子、画眉、莺类等。它们在生态系统中扮演重要角色，既是种子传播者，也是昆虫控制者。",
+                  "children": [
+                    {
+                      "node_name": "Corvidae",
+                      "category": "Animalia -> Chordata -> Aves -> Passeriformes -> Corvidae",
+                      "description": "Corvidae（鸦科）是雀形目（Passeriformes）中的一科鸟类，主要包括乌鸦、喜鹊、松鸦、渡鸦等。它们通常体型中等至较大，喙强健且呈钩状，羽毛多为黑色或灰黑色，部分种类具金属光泽。鸦科鸟类具有高度发达的智力，表现出复杂的社会行为、工具使用能力和出色的记忆力。它们广泛分布于全球各地，适应多种生态环境，从森林到城市均可生存。多数为杂食性，食物包括昆虫、小型动物、果实和人类废弃物。鸦科鸟类在生态系统中扮演重要角色，既是清道夫，也参与种子传播。其鸣叫多样，部分种类能模仿其他鸟类或人类语言。",
+                      "children": [
+                        {
+                          "node_name": "Corvus",
+                          "category": "Animalia -> Chordata -> Aves -> Passeriformes -> Corvidae -> Corvus",
+                          "description": "“Corvus”是鸟类中鸦科（Corvidae）下的一个属，中文通称“乌鸦属”，包含多种体型中等至大型的鸟类，如乌鸦、渡鸦和喜鹊等。它们具有强健的喙、黑色或深色羽毛、发达的智力和复杂的社会行为，广泛分布于全球各地，适应性强，常见于森林、城市及农田等环境。乌鸦属鸟类通常为杂食性，以昆虫、果实、小型动物及人类废弃物为食。其显著特征包括高度发达的鸣叫能力、工具使用能力及出色的记忆力，是鸟类中认知能力最突出的类群之一，常被视为智慧的象征。",
+                          "children": [
+                            {
+                              "node_name": "Corvus corax",
+                              "category": "Animalia -> Chordata -> Aves -> Passeriformes -> Corvidae -> Corvus -> Corvus corax",
+                              "description": "Corvus corax，即乌鸦，是雀形目鸦科鸦属的一种大型鸟类，体长约45–55厘米，通体黑色，羽毛具金属光泽，喙强健且呈钩状，腿粗壮，爪锐利。其大脑发达，具有极高的智力，能使用工具、识别镜子、解决复杂问题，是鸟类中认知能力最强的物种之一。乌鸦广泛分布于北半球温带及寒带地区，栖息于森林、城市、农田等多种生境，杂食性，以昆虫、小型动物、果实、腐肉等为食。它们常成对或群体活动，叫声多变，具有较强的社交行为和学习能力，是生态系统中重要的清道夫和种子传播者。",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "node_name": "Plantae",
+      "category": "Plantae",
+      "description": "Plantae（植物界）是一类多细胞、真核、自养的生物，主要通过光合作用利用光能将二氧化碳和水转化为有机物，释放氧气。其细胞具有细胞壁（主要成分为纤维素）、叶绿体和大型中央液泡。植物界成员通常具有根、茎、叶的分化，生活史中包含世代交替现象，即孢子体世代占优势，配子体世代退化。它们通过孢子或种子繁殖，多数为陆生，少数为水生。植物在生态系统中扮演生产者角色，是地球生物圈中不可或缺的组成部分。",
+      "children": [
+        {
+          "node_name": "Angiosperms",
+          "category": "Plantae -> Angiosperms",
+          "description": "被子植物（Angiosperms）是植物界中最为繁盛和多样化的类群，其主要特征是具有真正的花和果实。花由花萼、花冠、雄蕊和雌蕊等结构组成，雌蕊内含胚珠，受精后发育为种子，种子被包裹在由子房发育而来的果实中，这一特性称为“被子”。被子植物通过双受精过程繁殖，即一个精子与卵细胞结合形成合子，另一个精子与极核结合形成胚乳，为胚胎发育提供营养。它们具有维管束系统，包括木质部和韧皮部，支持高效运输水分和养分。被子植物广泛分布于陆地、淡水和部分海洋环境，包括草本、灌木和乔木等形态，是生态系统中最重要的生产者之一。",
+          "children": [
+            {
+              "node_name": "Eudicots",
+              "category": "Plantae -> Angiosperms -> Eudicots",
+              "description": "真双子叶植物（Eudicots）是被子植物（Angiosperms）中的一个主要分支，其特征包括花部器官通常为四或五基数，胚珠具双层珠被，维管束排列成环状，且具有典型的双子叶植物胚结构。它们的木质部中常含有导管，韧皮部中含筛管和伴胞，根系多为直根系。真双子叶植物在形态和生理上高度多样化，涵盖如蔷薇科、豆科、菊科等大量重要经济和生态类群，广泛分布于全球陆地生态系统中。",
+              "children": [
+                {
+                  "node_name": "Rosales",
+                  "category": "Plantae -> Angiosperms -> Eudicots -> Rosales",
+                  "description": "Rosales（蔷薇目）是被子植物中一个重要的目，主要包含木本或草本植物，多具托叶，花通常为两性、辐射对称，花被常为5基数，雄蕊多数或定数，子房上位或下位。该目植物广泛分布于全球，尤其在温带和热带地区种类丰富。典型代表包括蔷薇科（Rosaceae）、桑科（Moraceae）、荨麻科（Urticaceae）等，其中蔷薇科包含苹果、桃、玫瑰等经济与观赏价值高的植物。Rosales植物在形态和生态上具有高度多样性，部分种类具乳汁或特殊防御结构，适应多种生境。",
+                  "children": [
+                    {
+                      "node_name": "Rosaceae",
+                      "category": "Plantae -> Angiosperms -> Eudicots -> Rosales -> Rosaceae",
+                      "description": "蔷薇科（Rosaceae）是被子植物中一个重要的科，属于真双子叶植物中的蔷薇目。该科植物多为木本或草本，常见乔木、灌木或多年生草本，广泛分布于温带和寒带地区。其典型特征包括：花通常为两性，辐射对称，花萼和花瓣各5枚，雄蕊多数，雌蕊1至多个，子房上位或下位，果实类型多样，如核果、梨果、瘦果或聚合果。叶片多为单叶或复叶，常具托叶。蔷薇科包含许多经济和观赏价值高的植物，如苹果、梨、桃、李、玫瑰、草莓等，是园艺和农业中极为重要的类群。",
+                      "children": [
+                        {
+                          "node_name": "Rosa",
+                          "category": "Plantae -> Angiosperms -> Eudicots -> Rosales -> Rosaceae -> Rosa",
+                          "description": "“Rosa”即蔷薇属，是被子植物门、双子叶植物纲、蔷薇目、蔷薇科中的一属，主要特征为茎常具皮刺，叶为羽状复叶，小叶边缘具锯齿，花通常为两性，花瓣5枚或重瓣，颜色多样，多具芳香，果实为蔷薇果（瘦果包于肉质花托内）。该属植物广泛分布于北半球温带地区，种类繁多，包括野生种与大量园艺栽培品种，具有重要的观赏、药用及经济价值。",
+                          "children": [
+                            {
+                              "node_name": "Rosa rugosa",
+                              "category": "Plantae -> Angiosperms -> Eudicots -> Rosales -> Rosaceae -> Rosa -> Rosa rugosa",
+                              "description": "玫瑰（Rosa rugosa），又称皱叶玫瑰或海滨玫瑰，是蔷薇科（Rosaceae）蔷薇属（Rosa）的一种落叶灌木。其叶片具明显皱褶，边缘有锯齿，叶面深绿，背面灰绿，具托叶。花单生或数朵簇生，芳香浓郁，花色多为粉红至深红，亦有白色品种，花瓣5枚或重瓣，花期多在春末夏初。果实为蔷薇果，近球形，成熟时呈橙红色，富含维生素C。该植物耐盐碱、抗风沙，常见于海滨或沙地，广泛用于园林绿化、药用及食用（如制作玫瑰酱、玫瑰茶）。其种加词“rugosa”意为“皱褶的”，指其叶片特征。",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "node_name": "Fungi",
+      "category": "Fungi",
+      "description": "真菌（Fungi）是一类真核生物，具有细胞壁（主要成分为几丁质），不含叶绿体，无法进行光合作用，营吸收式营养，通过分泌酶分解外界有机物并吸收养分。其细胞通常为多细胞丝状结构（菌丝体），也可为单细胞（如酵母）。真菌繁殖主要依靠孢子，可进行有性或无性繁殖。常见类型包括霉菌、酵母菌和蕈类（如蘑菇）。真菌广泛分布于陆地、水体及空气中，参与物质循环，在生态系统中具有重要分解者功能，同时在医药、食品工业中具有广泛应用。",
+      "children": [
+        {
+          "node_name": "Basidiomycota",
+          "category": "Fungi -> Basidiomycota",
+          "description": "担子菌门（Basidiomycota）是真菌界中的一大类群，其主要特征是通过担子（basidium）进行有性生殖，担子上产生担孢子（basidiospores），通常为4个，排列于担子的顶端。该类群包括蘑菇、木耳、锈菌、黑粉菌等常见种类，广泛分布于陆地生态系统中，多为腐生、寄生或共生生活方式。担子菌的菌丝体多为双核菌丝（ dikaryotic），具有锁状联合（clamp connection）结构，有助于细胞核的均等分裂。其子实体（fruiting body）形态多样，从简单的菌丝团到复杂的伞状或杯状结构。担子菌在生态系统中扮演重要角色，参与有机质分解和与植物的共生关系（如菌根）。",
+          "children": [
+            {
+              "node_name": "Agaricomycetes",
+              "category": "Fungi -> Basidiomycota -> Agaricomycetes",
+              "description": "Agaricomycetes（担子菌门伞菌纲）是一类广泛分布的真菌，主要特征为产生大型子实体（即我们常见的蘑菇），其担子果通常具有菌盖、菌柄等典型结构。它们通过担孢子进行有性繁殖，担孢子在担子上形成并散播。该类群包括食用菌（如香菇、金针菇）、药用菌（如灵芝）以及许多腐生或共生真菌。Agaricomycetes在生态系统中扮演重要角色，参与有机质分解和与植物形成菌根共生关系。其子实体形态多样，从伞状到珊瑚状、耳状等，广泛分布于森林、草地和腐木环境中。",
+              "children": [
+                {
+                  "node_name": "Agaricales",
+                  "category": "Fungi -> Basidiomycota -> Agaricomycetes -> Agaricales",
+                  "description": "Agaricales（伞菌目）是担子菌门（Basidiomycota）中的一类真菌，隶属于伞菌纲（Agaricomycetes），其典型特征为具有伞状子实体，包括菌盖、菌柄和菌褶等结构。菌褶内产生担子，担子上着生担孢子，通过担孢子进行有性繁殖。该目真菌多为腐生或共生，广泛分布于陆地生态系统中，常见于林地、草地或朽木上。许多种类可食用，如双孢蘑菇（Agaricus bisporus），但也包含有毒种类，如毒鹅膏（Amanita phalloides）。Agaricales在真菌分类和生态功能中具有重要地位，是真菌多样性研究的重点类群之一。",
+                  "children": [
+                    {
+                      "node_name": "Amanitaceae",
+                      "category": "Fungi -> Basidiomycota -> Agaricomycetes -> Agaricales -> Amanitaceae",
+                      "description": "Amanitaceae（鹅膏菌科）是担子菌门（Basidiomycota）中的一科真菌，隶属于伞菌目（Agaricales），其典型特征包括具有菌环（菌柄上部的膜质环状结构）和菌托（菌柄基部的杯状或球状结构），这些结构是其子实体发育过程中菌膜残留形成的。该科真菌多为伞状，菌盖表面常具鳞片或斑点，颜色多样，部分种类具有强烈毒性，如著名的毒鹅膏（Amanita phalloides），其含有的鹅膏肽类毒素可致严重肝肾损伤甚至死亡。鹅膏菌科真菌广泛分布于温带和热带森林，常与树木形成外生菌根共生关系，对森林生态系统具有重要生态功能。",
+                      "children": [
+                        {
+                          "node_name": "Amanita",
+                          "category": "Fungi -> Basidiomycota -> Agaricomycetes -> Agaricales -> Amanitaceae -> Amanita",
+                          "description": "Amanita（毒鹅膏属）是一类隶属于担子菌门、伞菌纲、伞菌目、鹅膏科的真菌，其子实体通常具有伞状菌盖、中空菌柄和显著的菌环（又称菌裙），部分种类在菌柄基部还具有菌托（菌托是菌丝体形成的杯状结构）。该属真菌广泛分布于温带和热带森林，常与树木形成外生菌根共生关系。Amanita属包含多种有毒或可食用种类，其中最著名的是剧毒的“毁灭天使”（如Amanita phalloides），其毒素主要为鹅膏肽类，可导致严重肝肾损伤甚至死亡。部分种类如Amanita caesarea（皇室鹅膏）则可食用，风味优良。该属真菌在形态、生态及毒性方面具有高度多样性，是真菌学研究的重要对象。",
+                          "children": [
+                            {
+                              "node_name": "Amanita muscaria",
+                              "category": "Fungi -> Basidiomycota -> Agaricomycetes -> Agaricales -> Amanitaceae -> Amanita -> Amanita muscaria",
+                              "description": "毒蝇伞（Amanita muscaria），又称红菇、毒蝇鹅膏菌，是一种广泛分布于北半球温带和寒带森林中的大型真菌，隶属于担子菌门（Basidiomycota）、伞菌纲（Agaricomycetes）、伞菌目（Agaricales）、鹅膏菌科（Amanitaceae）、鹅膏菌属（Amanita）。其典型特征为鲜红色至橙红色的菌盖，表面密布白色或乳白色的凸起鳞片，菌柄粗壮，基部膨大呈球状，菌环明显。该菌含有多种生物碱，如蝇蕈素（muscimol）和鹅膏蕈氨酸（ibotenic acid），具有神经毒性，误食可引起幻觉、恶心、呕吐等症状，但部分文化中曾用于仪式用途。尽管有毒，其鲜艳外观使其成为童话和艺术作品中常见的蘑菇形象。",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "node_name": "Protista",
+      "category": "Protista",
+      "description": "原生生物（Protista）是一类主要由单细胞真核生物构成的生物类群，部分为多细胞但结构简单，常被视为连接原核生物与真核多细胞生物之间的过渡类群。其细胞具有真核细胞的典型特征，如细胞核、线粒体、内质网等细胞器，部分种类含有叶绿体，能进行光合作用。原生生物生活方式多样，包括自养、异养或混合营养，常见于淡水、海水或潮湿土壤等环境中。它们的繁殖方式包括无性繁殖（如二分裂）和有性繁殖。原生生物在生物分类学中常被归为“原生生物界”，但现代系统发育研究显示其内部多样性极高，许多类群已重新归入其他界，如藻类归入植物界或原生生物界下的不同分支，真菌则独立成界。",
+      "children": [
+        {
+          "node_name": "Protozoa",
+          "category": "Protista -> Protozoa",
+          "description": "原生动物（Protozoa）是一类单细胞真核生物，属于原生生物界（Protista）。它们通常具有运动能力，通过鞭毛、纤毛或伪足进行移动，并以吞噬或渗透方式摄取食物。原生动物结构简单，但功能完整，能独立完成营养、呼吸、排泄和繁殖等生命活动。多数生活在淡水、海水或潮湿土壤中，少数寄生在动植物体内，部分种类可引起人类疾病，如疟原虫（Plasmodium）和阿米巴原虫（Entamoeba）。根据运动结构和营养方式，原生动物可分为鞭毛虫类、纤毛虫类、肉足虫类和孢子虫类等主要类群。",
+          "children": [
+            {
+              "node_name": "Ciliophora",
+              "category": "Protista -> Protozoa -> Ciliophora",
+              "description": "纤毛虫（Ciliophora）是一类单细胞真核生物，属于原生生物界中的原生动物门。其最显著的特征是体表覆盖大量纤毛（cilia），这些纤毛由微管构成，呈“9+2”结构，能协调摆动以实现运动和摄食。纤毛虫通常具有两个细胞核：大核（macronucleus）负责营养和代谢调控，小核（micronucleus）参与遗传和有性生殖。它们多为异养型，通过胞口摄取食物，形成食物泡进行消化。常见于淡水、海水及潮湿土壤中，部分种类如草履虫（Paramecium）是生物学研究的经典模式生物。纤毛虫的生命周期包括无性二分裂和有性接合生殖，具有较高的适应性和繁殖能力。",
+              "children": [
+                {
+                  "node_name": "Oligohymenophorea",
+                  "category": "Protista -> Protozoa -> Ciliophora -> Oligohymenophorea",
+                  "description": "Oligohymenophorea（寡膜纲）是纤毛虫门（Ciliophora）中的一个主要类群，其特征为具有较少的膜状结构（通常为1-2个膜泡），体表纤毛排列规则，常呈环状或带状分布。该类群多数为自由生活或寄生的单细胞原生动物，常见于淡水、海水及土壤环境中。其细胞结构复杂，具有大核与小核的分化，大核负责营养代谢，小核参与遗传信息传递。典型代表包括草履虫（Paramecium）和四膜虫（Tetrahymena），它们在细胞生物学和遗传学研究中具有重要模型价值。寡膜纲成员通常通过二分裂繁殖，部分种类可进行接合生殖，实现基因重组。",
+                  "children": [
+                    {
+                      "node_name": "Parameciidae",
+                      "category": "Protista -> Protozoa -> Ciliophora -> Oligohymenophorea -> Parameciidae",
+                      "description": "Parameciidae（草履虫科）是一类隶属于纤毛虫门（Ciliophora）的单细胞原生动物，具有典型的纤毛虫结构特征。其体形多呈长椭圆形或鞋底状，体表覆盖大量纤毛（cilia），用于运动和摄食。细胞内含大核（macronucleus）和小核（micronucleus），大核负责营养与代谢调控，小核参与遗传与有性生殖。草履虫科成员通常通过二分裂进行无性繁殖，也可通过接合生殖（conjugation）实现遗传物质交换。它们广泛分布于淡水、咸水及潮湿土壤环境中，以细菌、藻类等微小生物为食，在生态系统中扮演重要分解者角色。该科典型代表为草履虫（Paramecium），是生物学教学与研究中的经典模式生物。",
+                      "children": [
+                        {
+                          "node_name": "Paramecium",
+                          "category": "Protista -> Protozoa -> Ciliophora -> Oligohymenophorea -> Parameciidae -> Paramecium",
+                          "description": "草履虫（Paramecium）是一种常见的单细胞真核生物，属于原生生物界中的纤毛虫类。其体表覆盖着大量纤毛（cilia），用于运动和摄食，具有典型的细胞核结构，包括大核（macronucleus）和小核（micronucleus），分别负责营养代谢和遗传繁殖。草履虫通过胞口摄取细菌、藻类等食物，经食物泡消化后排出残渣。其生殖方式包括无性二分裂和有性接合生殖。草履虫形态呈鞋底状或椭圆形，常生活在淡水环境中，是研究细胞生物学、遗传学和原生动物学的重要模式生物。",
+                          "children": [
+                            {
+                              "node_name": "Paramecium caudatum",
+                              "category": "Protista -> Protozoa -> Ciliophora -> Oligohymenophorea -> Parameciidae -> Paramecium -> Paramecium caudatum",
+                              "description": "草履虫（Paramecium caudatum）是一种常见的单细胞原生动物，属于纤毛虫类，体形呈长椭圆形，前端略尖，后端较钝，整体形似草鞋，故得名“草履虫”。其体表覆盖大量纤毛（cilia），用于运动和摄食，通过口沟（oral groove）摄取细菌、酵母等微小食物颗粒。细胞内具有大核（macronucleus）和小核（micronucleus），分别负责营养代谢和遗传繁殖。草履虫通过二分裂进行无性繁殖，也可通过接合生殖进行有性生殖。其体内有伸缩泡（contractile vacuole）调节水分平衡，常见于淡水池塘、溪流等富营养水体中，是研究细胞生物学和遗传学的重要模式生物。",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "node_count": 38,
+  "path_count": 7,
+  "enriched": true
+}

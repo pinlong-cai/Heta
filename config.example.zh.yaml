@@ -1,0 +1,219 @@
+# Heta 配置示例（国内版）
+#
+# 使用步骤：
+#   1. cp config.example.zh.yaml config.yaml
+#   2. 在 providers 中填入你的 API 密钥
+#   3. docker-compose up -d
+#
+# 持久化服务地址已与 docker-compose.yml 对齐，直接启动无需修改。
+# 若在宿主机直接运行（不走 Docker），将各 host 改为 127.0.0.1。
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Provider anchors — define API credentials once, referenced below.
+# ─────────────────────────────────────────────────────────────────────────────
+providers:
+
+  dashscope: &dashscope
+    api_key: "YOUR_DASHSCOPE_API_KEY"
+    base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+
+  siliconflow: &siliconflow
+    api_key: "YOUR_SILICONFLOW_API_KEY"
+    base_url: "https://api.siliconflow.cn/v1"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Persistence — aligned with docker-compose service names and default credentials.
+# ─────────────────────────────────────────────────────────────────────────────
+persistence:
+  postgresql:
+    host: postgres
+    port: 5432
+    user: postgres
+    password: postgres
+    database: postgres
+    options: "-c search_path=public"
+
+  milvus:
+    host: "milvus"
+    port: 19530
+    url: "http://milvus:19530"
+
+  neo4j:
+    url: "bolt://neo4j:7687"
+    username: "neo4j"
+    password: "heta_password"
+    database: "neo4j"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+heta:
+  title: "Heta API"
+  version: "0.1.0"
+
+  fastapi:
+    host: "0.0.0.0"
+    port: 8000
+    reload: false
+    log_level: "info"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+hetadb:
+  title: "HetaDB API"
+  version: "0.1.0"
+  workspace: "workspace"
+
+  fastapi:
+    host: "0.0.0.0"
+    port: 8001
+    reload: false
+    log_level: "info"
+
+  llm:
+    <<: *dashscope
+    model: "Qwen/Qwen3-32B"
+    max_concurrent_requests: 10
+    max_retries: 3
+    timeout: 120
+
+  vlm:
+    <<: *dashscope
+    model: "qwen3.5-plus"
+    max_concurrent_requests: 10
+    max_retries: 5
+    timeout: 120
+
+  embedding_api:
+    <<: *siliconflow
+    model: "BAAI/bge-m3"
+    dim: 1024
+    timeout: 30
+    batch_size: 2000
+    num_threads: 8
+    max_file_size_bytes: 3221225472
+    max_retries: 5
+    retry_delay: 2
+
+  # File storage — uses MinIO from docker-compose (S3-compatible)
+  s3:
+    ak: "minioadmin"
+    sk: "minioadmin"
+    endpoint: "http://minio:9000"           # 后端连接 MinIO 的地址（Docker 内网）
+    public_endpoint: "http://localhost:9000" # 返回给客户端的下载链接中使用的地址
+                                             # 公网部署请改为服务器 IP 或域名
+    bucket: "hetadb-raw-files"
+    config:
+      signature_version: "s3v4"
+      retries:
+        max_attempts: 3
+        mode: "adaptive"
+      read_timeout: 300
+      connect_timeout: 60
+
+  # postgresql/milvus injected from persistence at loader level
+  milvus:
+    db_name: "hetadb"
+    sentence_mode: false
+
+  # Max concurrent dataset parse tasks.  Each task spawns graph.max_workers
+  # LLM threads, so effective LLM concurrency = parse_max_workers × llm.max_concurrent_requests.
+  parse_max_workers: 2
+
+  query_defaults:
+    top_k: 10
+    threshold: 0.0
+    similarity_weight: 1.5
+    occur_weight: 1.0
+    reranker_url: ""    # Optional: fill in your reranker service URL to enable reranking
+
+  search_params:
+    ef_multiplier: 10
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+hetamem:
+  title: "HetaMem API"
+  version: "0.1.0"
+
+  fastapi:
+    host: "0.0.0.0"
+    port: 8003
+    reload: false
+    log_level: "info"
+
+  memorykb:
+    llm:
+      <<: *dashscope
+      model: "qwen-plus"
+
+    embedding:
+      <<: *dashscope
+      model: "text-embedding-v4"
+      dim: 1536
+
+  memoryvg:
+    llm:
+      provider: "openai"
+      config:
+        <<: *dashscope
+        model: "qwen3-max"
+
+    embedder:
+      provider: "openai"
+      config:
+        <<: *siliconflow
+        model: "BAAI/bge-m3"
+        embedding_dims: 1024
+
+    vector_store:
+      provider: "milvus"
+      config:
+        collection_name: "memoryvg"
+        embedding_model_dims: 1024
+        metric_type: "IP"
+        db_name: "hetamem"
+
+    graph_store:
+      provider: "neo4j"
+
+    version: "v1.1"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+hetagen:
+  fastapi:
+    host: "0.0.0.0"
+    port: 8002
+    reload: false
+    log_level: "info"
+
+  llm:
+    <<: *dashscope
+    model: "Qwen/Qwen3-32B"
+    max_concurrent_requests: 10
+    max_retries: 5
+    timeout: 120
+
+  vlm:
+    <<: *siliconflow
+    model: "Qwen/Qwen3-VL-32B-Instruct"
+    max_concurrent_requests: 10
+    max_retries: 5
+    timeout: 120
+
+  embedding_api:
+    <<: *siliconflow
+    model: "BAAI/bge-m3"
+    dim: 1024
+    timeout: 30
+
+  milvus:
+    # host/port injected from persistence.milvus at loader level
+    db_name: "hetagen"
+    collection_name: "top_100_embeddings"
+    embedding_dim: 1024
+    index_type: "IVF_FLAT"
+    metric_type: "IP"
+    nlist: 128
+    batch_size: 100
