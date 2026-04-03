@@ -305,7 +305,7 @@ Heta is built on the shoulders of excellent open-source projects:
 
 We are grateful to their authors for making this work possible.
 
-HetaMem draws from **[MemVerse](https://github.com/KnowledgeXLab/MemVerse)**, our research framework for multimodal lifelong agent memory. If you are interested in agent memory beyond RAG, we recommend checking it out.
+HetaMem draws from **[MemVerse](https://github.com/KnowledgeXLab/MemVerse)**, our research framework for multimodal lifelong agent memory. If you are interested in agent memory, we recommend checking it out.
 
 ---
 
